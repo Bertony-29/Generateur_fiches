@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Historique </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <style>
+            body { background-color: #f8f9fa; padding-top: 50px; }
+            .fiche-card { border-left: 5px solid #0d6efd; transition: transform 0.2s; }
+            .fiche-card:hover { transform: scale(1.01); }
+            .danger-item { color: #dc3545; font-weight: 500; }
+        </style>
+    </head>
+    <body>
+        <h2> Liste des fiches :</h2>
+        {% if historique %}
+            {% for h in historique %}
+                <div class="card shadow-sm mb-4 fiche-card">
+                            <div class="card-body">
+                                <h3 class="card-title text-primary">⚡ {{ h.titre }}</h3>
+                                <p class="card-text"><strong>L'essentiel :</strong> {{ h.synthese }}</p>
+                                
+                                <hr>
+                                <h5 class="text-danger">⚠️ Dangers fréquents :</h5>
+                                <ul class="list-group list-group-flush mb-3">
+                                    {% for d in h.dangers %}
+                                        <li class="list-group-item bg-transparent border-0 ps-0">❌ {{ d }}</li>
+                                    {% endfor %}
+                                </ul>
+
+                                <hr>
+                                <h5> Symptômes :</h5>
+                                <ul class="list-group list-group-flush mb-3">
+                                    {% for d in h.symptomes %}
+                                        <li class="list-group-item bg-transparent border-0 ps-0">❌ {{ d }}</li>
+                                    {% endfor %}
+                                </ul>
+
+                                <a href="{{ h.lien_doc }}" target="_blank" class="btn btn-outline-info btn-sm">📚 Documentation officielle</a>
+                            </div>
+                        </div>
+        {% endfor %}
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fa-solid fa-ghost fa-3x text-muted mb-3"></i>
+                <h3 class="text-secondary">Oups, c'est bien vide ici...</h3>
+                <p class="text-muted">Tu n'as pas encore généré de Fiches de Survie.</p>
+                <a href="/" class="btn btn-primary mt-3">
+                    <i class="fa-solid fa-plus me-2"></i>Analyser mon premier fichier
+                </a>
+            </div>                
+            
+        {% endif %}
+        <div class="card shadow-sm mb-5">
+            <div class="card-body p-4">
+                <a href="/" class="btn btn-outline-secondary"> Accueil </a>
+            </div>
+        </div>
+    </body>
+</html>
