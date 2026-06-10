@@ -86,7 +86,19 @@ def Deconnexion():
     return redirect("/login")
 
 
-
+@app.route("/delete/<id_fiche>")
+def Supprimer(id_fiche):
+    if not session.get("utilisateur"):
+        return redirect("/login")
+    
+    try:
+        id_actuel = session.get("utilisateur")
+        suppression = supabase_client.table("fiches").delete().eq("id",id_fiche).eq("user_id",id_actuel).execute()
+        return redirect("/history")
+    except Exception as e:
+        flash("Erreur lors de la suppression !")  
+        print(f"Erreur lors de la suppression: {e}")  
+        return redirect("/history")
 
 
 

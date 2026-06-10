@@ -4,6 +4,7 @@
         <title>Générateur de fiches</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
         <style>
             body { background-color: #f8f9fa; padding-top: 90px; }
             .fiche-card { border-left: 5px solid #0d6efd; transition: transform 0.2s; }
@@ -56,8 +57,18 @@
                         </h2>
                         {% for f in fiches %}
                         <div class="card shadow-sm mb-4 fiche-card">
-                            <div class="card-body">
-                                <h3 class="card-title text-primary">⚡ {{ f.titre }}</h3>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h3 class="card-title text-primary mb-0">⚡ {{ f.titre }}</h3>
+                                
+                                <span class="badge d-flex align-items-center gap-2 px-3 py-2 fs-6 shadow-sm 
+                                    {% if f.langage == 'Python' %}bg-primary
+                                    {% elif f.langage == 'Java' %}bg-danger
+                                    {% else %}bg-dark{% endif %}">
+                                    
+                                    <i class="devicon-{{ f.langage|lower }}-plain text-white"></i>
+                                    {{ f.langage }}
+                                </span>
+                            </div>
                                 <p class="card-text"><strong>L'essentiel :</strong> {{ f.synthese }}</p>
                                 
                                 <hr>
