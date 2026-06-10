@@ -56,7 +56,7 @@ def Connexion():
             session["utilisateur"] = id_utilisateur
             return redirect("/")
         except Exception as e:
-            flash("Erreur lors de l'inscription !")
+            flash("Indentifiants incorrects !")
             print(f"Erreur de connexion: {e}")  
             return redirect("/login")  
     return render_template("login.html")
