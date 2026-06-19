@@ -33,13 +33,26 @@ def Historique():
     
     try:
         id_actuel = session.get("utilisateur")
+        
         reponse = supabase_client.table("fiches").select().eq("user_id",id_actuel).order("date_creation",desc=True).execute()
-        fiches = reponse.data
-    
+        langages_disponibles = []
+        for fiche in reponse.data:
+            if fiche['langage'] not in langages_disponibles:
+                langages_disponibles.append(fiche['langage'])
+            else:
+                continue 
+        langage = request.args.get('lang')    
+        if langage :
+            reponse_filtre = reponse = supabase_client.table("fiches").select().eq("user_id",id_actuel).eq("langage",langage).order("date_creation",desc=True).execute()
+            fiches = reponse_filtre.data
+        else:
+            reponse = supabase_client.table("fiches").select().eq("user_id",id_actuel).order("date_creation",desc=True).execute()
+            fiches = reponse.data
+        
     except Exception as e:
         print(f"Erreur dans l'affichage de l'historique: {e}")
         
-    return render_template("historique.html", historique=fiches)
+    return render_template("historique.html", historique=fiches, langages_dispos=langages_disponibles)
 
 @app.route("/login", methods=["GET","POST"])
 def Connexion():
