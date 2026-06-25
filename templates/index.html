@@ -18,6 +18,11 @@
                 <a class="navbar-brand fw-bold text-primary" href="/">
                     <i class="fa-solid fa-file-code me-2"></i>Générateur de fiches
                 </a>
+                <li class="nav-item">
+                    <a class="nav-link text-white {% if request.path == '/profile' %}active{% endif %}" href="/profile">
+                        👤 Mon Profil
+                    </a>
+                </li>
                 <div class="d-flex align-items-center gap-3">
                     <a class="nav-link text-light" href="/history">
                         <i class="fa-solid fa-clock-rotate-left me-1"></i> Historique

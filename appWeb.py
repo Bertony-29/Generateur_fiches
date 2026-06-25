@@ -43,10 +43,9 @@ def Historique():
                 continue 
         langage = request.args.get('lang')    
         if langage :
-            reponse_filtre = reponse = supabase_client.table("fiches").select().eq("user_id",id_actuel).eq("langage",langage).order("date_creation",desc=True).execute()
+            reponse_filtre = supabase_client.table("fiches").select().eq("user_id",id_actuel).eq("langage",langage).order("date_creation",desc=True).execute()
             fiches = reponse_filtre.data
         else:
-            reponse = supabase_client.table("fiches").select().eq("user_id",id_actuel).order("date_creation",desc=True).execute()
             fiches = reponse.data
         
     except Exception as e:
@@ -67,6 +66,7 @@ def Connexion():
                 })
             id_utilisateur = connexion.user.id
             session["utilisateur"] = id_utilisateur
+            session["utilisateur_email"] = user_email
             return redirect("/")
         except Exception as e:
             flash("Indentifiants incorrects !")
@@ -112,6 +112,20 @@ def Supprimer(id_fiche):
         flash("Erreur lors de la suppression !")  
         print(f"Erreur lors de la suppression: {e}")  
         return redirect("/history")
+
+
+@app.route("/profile")
+def Profil():
+    if not session.get("utilisateur"):
+        return redirect("/login")
+    
+    print(f"DEBUG SESSION - ID: {session.get('utilisateur')}")
+    print(f"DEBUG SESSION - EMAIL: {session.get('utilisateur_email')}")
+    
+    email = session.get("utilisateur_email")
+
+    return render_template("profile.html", email=email)
+
 
 
 
